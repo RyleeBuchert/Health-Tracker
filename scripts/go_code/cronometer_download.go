@@ -40,6 +40,11 @@ func main() {
     fmt.Println("Downloading Cronometer data...")
     nutrition, err := c.ExportDailyNutrition(context.Background(), date, date)
     if err != nil {
+        log.Fatalf("failed to retrieve nutrition: %s", err)
+    }
+
+    servings, err := c.ExportServings(context.Background(), date, date)
+    if err != nil {
         log.Fatalf("failed to retrieve servings: %s", err)
     }
 
@@ -61,6 +66,9 @@ func main() {
     nutritionFileName := fmt.Sprintf("dailysummary_%s.csv", today.Format("20060102"))
     nutritionFilePath := filepath.Join(dataDir, nutritionFileName)
 
+    servingsFileName := fmt.Sprintf("servings_%s.csv", today.Format("20060102"))
+    servingsFilePath := filepath.Join(dataDir, servingsFileName)
+
     exerciseFileName := fmt.Sprintf("exercises_%s.csv", today.Format("20060102"))
     exerciseFilePath := filepath.Join(dataDir, exerciseFileName)
 
@@ -68,6 +76,11 @@ func main() {
     err = ioutil.WriteFile(nutritionFilePath, []byte(nutrition), 0644)
     if err != nil {
         log.Fatalf("Failed to write nutrition data to file: %s", err)
+    }
+
+    err = ioutil.WriteFile(servingsFilePath, []byte(servings), 0644)
+    if err != nil {
+        log.Fatalf("Failed to write servings data to file: %s", err)
     }
 
     err = ioutil.WriteFile(exerciseFilePath, []byte(exercise), 0644)
