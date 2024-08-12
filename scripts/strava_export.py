@@ -106,10 +106,10 @@ def collect_strava_data():
 
         # Extract calorie and suffer score entries from json response
         new_activity_data = new_activity_response.json()
-        new_activity_info.append([id, new_activity_data.get('calories'), new_activity_data.get('suffer_score')])
+        new_activity_info.append([id, new_activity_data.get('calories')])
 
     # Additional activity information
-    new_activity_info = pd.DataFrame(new_activity_info, columns=['id', 'calories', 'suffer_score'])
+    new_activity_info = pd.DataFrame(new_activity_info, columns=['id', 'calories'])
 
     # Join with activities
     new_activities = new_activities.merge(new_activity_info, on='id', how='left')
@@ -118,14 +118,14 @@ def collect_strava_data():
     activity_columns = [
         'activity', 'date', 'calories', 'distance', 
         'moving_time', 'elapsed_time', 'average_speed', 'max_speed', 
-        'average_heartrate', 'max_heartrate', 'suffer_score'
+        'average_heartrate', 'max_heartrate'
     ]
     new_activities = new_activities.loc[:, activity_columns]
 
     if len(new_activities) > 0:
         # Combine the activities dataframes
         combined_activities = pd.concat([activities_save, new_activities], ignore_index=True)
-        combined_activities.sort_values(by='date', ascending=False, inplace=True)
+        combined_activities.sort_values(by='date', ascending=True, inplace=True)
         combined_activities.reset_index(drop=True, inplace=True)
 
         # Save updated activities dataframe
