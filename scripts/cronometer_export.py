@@ -58,7 +58,7 @@ def collect_cronometer_data():
         cronometer_servings = pd.concat([servings, daily_servings], ignore_index=True)
         update_google_sheet(cronometer_servings, 2)
         cronometer_servings.to_csv(f"{DATA_PATH}/cronometer_servings.csv")
-        print("Exported Cronometer nutrition data.")
+        print("Exported Cronometer servings data.")
     else:
         print("No new Cronometer servings data available.")
 
