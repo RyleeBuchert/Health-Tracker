@@ -33,22 +33,27 @@ func main() {
     if err != nil {
         log.Fatalf("failed to load location: %s", err)
     }
+
+    // Get today's date in the Central Time Zone
     today := time.Now().In(loc)
     date := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, loc)
+
+    // Get yesterday's date
+    yesterday := date.AddDate(0, 0, -1)
     
     // Download the nutrition and exercise data for today
     fmt.Println("Downloading Cronometer data...")
-    nutrition, err := c.ExportDailyNutrition(context.Background(), date, date)
+    nutrition, err := c.ExportDailyNutrition(context.Background(), yesterday, date)
     if err != nil {
         log.Fatalf("failed to retrieve nutrition: %s", err)
     }
 
-    servings, err := c.ExportServings(context.Background(), date, date)
+    servings, err := c.ExportServings(context.Background(), yesterday, date)
     if err != nil {
         log.Fatalf("failed to retrieve servings: %s", err)
     }
 
-    exercise, err := c.ExportExercises(context.Background(), date, date)
+    exercise, err := c.ExportExercises(context.Background(), yesterday, date)
     if err != nil {
         log.Fatalf("failed to retrieve exercises: %s", err)
     }
