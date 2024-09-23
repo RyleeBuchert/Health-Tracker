@@ -43,23 +43,23 @@ def collect_cronometer_data():
     else:
         print("No new Cronometer nutrition data available.")
 
-    # Load serings masterfile
-    servings = pd.read_csv(f"{DATA_PATH}/cronometer_servings.csv", index_col=0)
+    # # Load serings masterfile
+    # servings = pd.read_csv(f"{DATA_PATH}/cronometer_servings.csv", index_col=0)
 
-    # Load recent servings download
-    daily_servings = pd.read_csv(get_latest_download("servings"))
+    # # Load recent servings download
+    # daily_servings = pd.read_csv(get_latest_download("servings"))
     
-    # Filter servings data
-    daily_servings.rename(columns={'Day': 'Date'}, inplace=True)
-    daily_servings = daily_servings[daily_servings['Date'] > max(servings['Date'])]
+    # # Filter servings data
+    # daily_servings.rename(columns={'Day': 'Date'}, inplace=True)
+    # daily_servings = daily_servings[daily_servings['Date'] > max(servings['Date'])]
 
-    # If new data is available, combine files, export to google sheets, and save
-    if len(daily_servings) > 0 and len(cronometer_nutrition) > 0:
-        cronometer_servings = pd.concat([servings, daily_servings], ignore_index=True)
-        update_google_sheet(cronometer_servings, 2)
-        cronometer_servings.to_csv(f"{DATA_PATH}/cronometer_servings.csv")
-        print("Exported Cronometer servings data.")
-    else:
-        print("No new Cronometer servings data available.")
+    # # If new data is available, combine files, export to google sheets, and save
+    # if len(daily_servings) > 0 and len(cronometer_nutrition) > 0:
+    #     cronometer_servings = pd.concat([servings, daily_servings], ignore_index=True)
+    #     update_google_sheet(cronometer_servings, 2)
+    #     cronometer_servings.to_csv(f"{DATA_PATH}/cronometer_servings.csv")
+    #     print("Exported Cronometer servings data.")
+    # else:
+    #     print("No new Cronometer servings data available.")
 
 
