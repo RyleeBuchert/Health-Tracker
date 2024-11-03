@@ -33,6 +33,7 @@ def collect_cronometer_data():
     cronometer_nutrition = daily_summary.merge(daily_exercises, how='left', on='Date')
     cronometer_cols = ['Date', 'Energy (kcal)', 'Burned (kcal)', 'Protein (g)', 'Carbs (g)', 'Fat (g)', 'Added Sugars (g)', 'Sodium (mg)']
     cronometer_nutrition = cronometer_nutrition[cronometer_cols]
+    cronometer_nutrition['Burned (kcal)'] = cronometer_nutrition['Burned (kcal)'].fillna(1850)
 
     # If new data is available, combine files, export to google sheets, and save
     if len(cronometer_nutrition) > 0:
@@ -63,3 +64,6 @@ def collect_cronometer_data():
     #     print("No new Cronometer servings data available.")
 
 
+if __name__ == "__main__":
+    # Collect Cronometer nutrition data
+    collect_cronometer_data()
